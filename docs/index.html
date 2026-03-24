@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS-NEXUS — Cognitive Protocol for AI Collaboration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink:      #fbb6ce;
+      --pink-soft: #fce7f3;
+      --pink-dark: #e879a0;
+      --yellow:    #fde68a;
+      --yellow-soft: #fefce8;
+      --yellow-dark: #d97706;
+      --teal:      #99f6e4;
+      --teal-soft: #f0fdf9;
+      --teal-dark: #0d9488;
+      --lavender:  #ddd6fe;
+      --lav-soft:  #f5f3ff;
+      --lav-dark:  #7c3aed;
+      --peach:     #fed7aa;
+      --peach-soft:#fff7ed;
+      --peach-dark:#ea580c;
+
+      --bg:        #fafaf9;
+      --surface:   #ffffff;
+      --border:    #e7e5e4;
+      --text:      #1c1917;
+      --text-2:    #57534e;
+      --text-3:    #a8a29e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,250,249,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1em;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pink-dark);
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-2);
+      font-size: 0.88em;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 100px 24px 80px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      font-size: 0.78em;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.4em, 5vw, 3.6em);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    h1 .accent-pink   { color: var(--pink-dark); }
+    h1 .accent-teal   { color: var(--teal-dark); }
+
+    .hero-sub {
+      font-size: 1.15em;
+      color: var(--text-2);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.9em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3c3836;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-3);
+      transform: translateY(-1px);
+    }
+
+    /* ── STATS ── */
+    .stats {
+      max-width: 800px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8em;
+      color: var(--text-3);
+      font-weight: 500;
+    }
+
+    /* ── SECTION ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78em;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 2px;
+      border-radius: 2px;
+    }
+
+    .section-label.pink  { color: var(--pink-dark);  }
+    .section-label.pink::before  { background: var(--pink-dark); }
+    .section-label.teal  { color: var(--teal-dark);  }
+    .section-label.teal::before  { background: var(--teal-dark); }
+    .section-label.lav   { color: var(--lav-dark);   }
+    .section-label.lav::before   { background: var(--lav-dark); }
+    .section-label.peach { color: var(--peach-dark); }
+    .section-label.peach::before { background: var(--peach-dark); }
+
+    h2 {
+      font-size: 1.9em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      color: var(--text-2);
+      margin-bottom: 40px;
+      max-width: 560px;
+    }
+
+    /* ── PRINCIPLE CARDS ── */
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .principle-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .principle-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      margin-bottom: 14px;
+    }
+
+    .principle-card h3 {
+      font-size: 0.95em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .principle-card p {
+      font-size: 0.85em;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── PROFILES ── */
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .profile-card {
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .profile-card:hover { transform: translateY(-3px); }
+
+    .profile-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .profile-letter {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .profile-name {
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .profile-desc {
+      font-size: 0.75em;
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+
+    .profile-d { background: var(--pink-soft);   color: var(--pink-dark); }
+    .profile-a { background: var(--teal-soft);   color: var(--teal-dark); }
+    .profile-c { background: var(--lav-soft);    color: var(--lav-dark); }
+    .profile-e { background: var(--yellow-soft); color: var(--yellow-dark); }
+    .profile-l { background: var(--peach-soft);  color: var(--peach-dark); }
+
+    /* ── 3-LAYER ── */
+    .layers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .layer {
+      padding: 32px 24px;
+      background: var(--surface);
+    }
+
+    .layer-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+
+    .layer h3 {
+      font-size: 1.1em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .layer p {
+      font-size: 0.85em;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    .layer-1 { border-top: 3px solid var(--pink); }
+    .layer-2 { border-top: 3px solid var(--teal); }
+    .layer-3 { border-top: 3px solid var(--yellow); }
+
+    /* ── VALIDATION ── */
+    .validation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .validation-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .validation-card h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .val-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+    }
+
+    .val-metric:last-child { border-bottom: none; }
+
+    .val-metric .label { color: var(--text-2); }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.78em;
+      font-weight: 600;
+    }
+
+    .badge-pink   { background: var(--pink-soft);   color: var(--pink-dark); }
+    .badge-teal   { background: var(--teal-soft);   color: var(--teal-dark); }
+    .badge-yellow { background: var(--yellow-soft); color: var(--yellow-dark); }
+    .badge-lav    { background: var(--lav-soft);    color: var(--lav-dark); }
+
+    /* ── START ── */
+    .start-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      counter-reset: steps;
+    }
+
+    .start-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      counter-increment: steps;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72em;
+      font-weight: 500;
+      color: var(--text-3);
+      margin-bottom: 10px;
+    }
+
+    .start-step h3 {
+      font-size: 0.95em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .start-step p {
+      font-size: 0.83em;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 6px;
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.83em;
+      color: var(--text-3);
+    }
+
+    footer a {
+      color: var(--text-2);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero > * {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero > *:nth-child(4) { animation-delay: 0.35s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .principles { grid-template-columns: 1fr; }
+      .profiles-grid { grid-template-columns: repeat(2, 1fr); }
+      .layers { grid-template-columns: 1fr; }
+      .validation-grid { grid-template-columns: 1fr; }
+      .start-steps { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span></span>DS-NEXUS</a>
+  <ul class="nav-links">
+    <li><a href="#protocol">Protocol</a></li>
+    <li><a href="#profiles">Profiles</a></li>
+    <li><a href="#validation">Validation</a></li>
+    <li><a href="#start">Start</a></li>
+    <li><a href="https://github.com/denysporynets/DS-Nexus" target="_blank">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">v2.0 · Open Source</div>
+  <h1>
+    Stop adapting to<br>
+    <span class="accent-pink">your AI.</span><br>
+    Make it adapt to <span class="accent-teal">you.</span>
+  </h1>
+  <p class="hero-sub">
+    DS-NEXUS is a meta-prompt framework that calibrates AI collaboration
+    to your cognitive architecture — not the other way around.
+  </p>
+  <div class="hero-cta">
+    <a href="#start" class="btn btn-primary">Get started →</a>
+    <a href="https://github.com/denysporynets/DS-Nexus" target="_blank" class="btn btn-secondary">View on GitHub</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-number" style="color:var(--pink-dark)">5–10×</div>
+    <div class="stat-label">faster execution</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" style="color:var(--teal-dark)">4/4</div>
+    <div class="stat-label">projects validated</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" style="color:var(--lav-dark)">5</div>
+    <div class="stat-label">cognitive profiles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number" style="color:var(--yellow-dark)">v3.0</div>
+    <div class="stat-label">in development</div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- PROTOCOL -->
+<section id="protocol">
+  <div class="section-label pink">Core principles</div>
+  <h2>How DS-NEXUS works</h2>
+  <p class="section-sub">Three principles that run through every interaction, regardless of your profile.</p>
+
+  <div class="principles">
+    <div class="principle-card">
+      <div class="principle-icon" style="background:var(--pink-soft)">⚡</div>
+      <h3>Signal over noise</h3>
+      <p>Standard communication optimizes for rapport (~40%) and redundancy (~30%). DS-NEXUS flips this: ~85% pure information, calibrated to your absorption speed.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:var(--teal-soft)">◎</div>
+      <h3>Intellectual equality</h3>
+      <p>Simplify the presentation, never the logic. You can always reconstruct the full reasoning if you want it. Condescension is noise.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:var(--lav-soft)">↗</div>
+      <h3>Single point of failure</h3>
+      <p>Every system has one. DS-NEXUS identifies it proactively and mitigates before it becomes the bottleneck. Applied to code, decisions, and communication.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- 3-LAYER -->
+<section>
+  <div class="section-label teal">Execution methodology</div>
+  <h2>The 3-layer framework</h2>
+  <p class="section-sub">Every problem gets the same treatment: understand the system before touching anything.</p>
+
+  <div class="layers">
+    <div class="layer layer-1">
+      <div class="layer-num">Layer 01</div>
+      <h3>Why — Architecture</h3>
+      <p>What is the <em>real</em> problem — not the symptom? Map constraints, assumptions, and second-order consequences before writing a single line of code.</p>
+      <p style="margin-top:10px; font-size:0.82em; color:var(--pink-dark); font-weight:500;">20–40% of time → generates 60–80% of value</p>
+    </div>
+    <div class="layer layer-2">
+      <div class="layer-num">Layer 02</div>
+      <h3>How — Implementation</h3>
+      <p>Execute with maximum efficiency. Symmetric code, documented decisions, explicit trade-offs. No clever code — optimize for maintainability and recovery speed.</p>
+    </div>
+    <div class="layer layer-3">
+      <div class="layer-num">Layer 03</div>
+      <h3>So What — Validation</h3>
+      <p>Does this solve the <em>real</em> problem? What are the second and third-order consequences? Where are the new bottlenecks? Is it scalable beyond N=1?</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROFILES -->
+<section id="profiles">
+  <div class="section-label lav">Cognitive profiles</div>
+  <h2>Find your starting point</h2>
+  <p class="section-sub">Five reference profiles. Your actual profile is generated by the calibration questionnaire — these are entry points, not boxes.</p>
+
+  <div class="profiles-grid">
+    <div class="profile-card profile-d">
+      <div class="profile-id">NEXUS-D</div>
+      <div class="profile-letter">D</div>
+      <div class="profile-name">Original</div>
+      <div class="profile-desc">TEA+ACI · Maximum density · Spatial 3D · Zero social noise</div>
+    </div>
+    <div class="profile-card profile-a">
+      <div class="profile-id">NEXUS-A</div>
+      <div class="profile-letter">A</div>
+      <div class="profile-name">Analytical</div>
+      <div class="profile-desc">High logic · Structured verbal · Medium context tolerance</div>
+    </div>
+    <div class="profile-card profile-c">
+      <div class="profile-id">NEXUS-C</div>
+      <div class="profile-letter">C</div>
+      <div class="profile-name">Creative</div>
+      <div class="profile-desc">Lateral thinking · Mixed processing · High ambiguity tolerance</div>
+    </div>
+    <div class="profile-card profile-e">
+      <div class="profile-id">NEXUS-E</div>
+      <div class="profile-letter">E</div>
+      <div class="profile-name">Executive</div>
+      <div class="profile-desc">BLUF always · Max 3 options · Time-critical decisions</div>
+    </div>
+    <div class="profile-card profile-l">
+      <div class="profile-id">NEXUS-L</div>
+      <div class="profile-letter">L</div>
+      <div class="profile-name">Learner</div>
+      <div class="profile-desc">Understanding over speed · Visible reasoning · Checkpoints</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- VALIDATION -->
+<section id="validation">
+  <div class="section-label peach">Empirical validation</div>
+  <h2>Not theory — results</h2>
+  <p class="section-sub">DS-NEXUS v2.0 has been applied to 4 real projects. Consistent pattern across all: faster, cleaner, higher quality.</p>
+
+  <div class="validation-grid">
+    <div class="validation-card">
+      <h3>ML Pipeline · Microsoft Malware Dataset</h3>
+      <div class="val-metric">
+        <span class="label">Dataset size</span>
+        <span>8.9M rows</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Constraint</span>
+        <span>RAM limited</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Duration</span>
+        <span>3 days</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Result</span>
+        <span class="badge badge-pink">AUC 0.735 (baseline 0.65)</span>
+      </div>
+    </div>
+    <div class="validation-card">
+      <h3>AI App · Guest Journey Map</h3>
+      <div class="val-metric">
+        <span class="label">Components</span>
+        <span>10 AI agents</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Stack</span>
+        <span>React + Gemini + Cloud Run</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Duration</span>
+        <span>3 days</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Result</span>
+        <span class="badge badge-teal">MVP demo-ready</span>
+      </div>
+    </div>
+    <div class="validation-card">
+      <h3>Content Experiment · LinkedIn</h3>
+      <div class="val-metric">
+        <span class="label">Tracking window</span>
+        <span>72h continuous</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Meta-content vs original</span>
+        <span>2× in 1/3 of time</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Hypothesis</span>
+        <span>Empirically validated</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Result</span>
+        <span class="badge badge-lav">Signal &gt; noise confirmed</span>
+      </div>
+    </div>
+    <div class="validation-card">
+      <h3>Corporate Evaluation · Pestana CR7</h3>
+      <div class="val-metric">
+        <span class="label">Score</span>
+        <span>3.63 / 4.0</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Level 4 competencies</span>
+        <span>10 / 11</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">External feedback</span>
+        <span>"Exceptional critical thinking"</span>
+      </div>
+      <div class="val-metric">
+        <span class="label">Result</span>
+        <span class="badge badge-yellow">Top 10% cohort</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- START -->
+<section id="start">
+  <div class="section-label teal">Get started</div>
+  <h2>Three steps</h2>
+  <p class="section-sub">From zero to calibrated protocol in under 15 minutes.</p>
+
+  <div class="start-steps">
+    <div class="start-step">
+      <div class="step-num">01 —</div>
+      <h3>Calibrate your profile</h3>
+      <p>Answer 8 questions about how you process information. No right or wrong answers — map how your mind actually works, not how you think it should.</p>
+      <p style="margin-top:12px"><a href="https://github.com/denysporynets/DS-Nexus/blob/main/calibration/questionnaire.md" target="_blank" style="color:var(--teal-dark); font-size:0.85em; font-weight:600; text-decoration:none;">Open questionnaire →</a></p>
+    </div>
+    <div class="start-step">
+      <div class="step-num">02 —</div>
+      <h3>Pick your profile</h3>
+      <p>Choose the closest reference profile from the <code>profiles/</code> folder. Copy the system prompt. Paste it into ChatGPT, Claude, or any LLM you use.</p>
+      <p style="margin-top:12px"><a href="https://github.com/denysporynets/DS-Nexus/tree/main/profiles" target="_blank" style="color:var(--teal-dark); font-size:0.85em; font-weight:600; text-decoration:none;">Browse profiles →</a></p>
+    </div>
+    <div class="start-step">
+      <div class="step-num">03 —</div>
+      <h3>Run and adjust</h3>
+      <p>Ask the LLM something you know well. If the output feels too dense, too sparse, or off — adjust the density and format parameters in the profile. It converges fast.</p>
+      <p style="margin-top:12px"><a href="https://github.com/denysporynets/DS-Nexus" target="_blank" style="color:var(--teal-dark); font-size:0.85em; font-weight:600; text-decoration:none;">View on GitHub →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong>DS-NEXUS</strong> · MIT License ·
+    <a href="https://github.com/denysporynets/DS-Nexus" target="_blank">github.com/denysporynets/DS-Nexus</a>
+  </div>
+  <div>Built by <a href="https://github.com/denysporynets" target="_blank">Denys Porynets</a> · v2.0 stable · v3.0 in development</div>
+</footer>
+
+</body>
+</html>
