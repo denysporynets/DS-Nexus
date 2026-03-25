@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posts — DS-NEXUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink:      #fbb6ce;
+      --pink-soft: #fce7f3;
+      --pink-dark: #e879a0;
+      --yellow:    #fde68a;
+      --yellow-soft: #fefce8;
+      --yellow-dark: #d97706;
+      --teal:      #99f6e4;
+      --teal-soft: #f0fdf9;
+      --teal-dark: #0d9488;
+      --lavender:  #ddd6fe;
+      --lav-soft:  #f5f3ff;
+      --lav-dark:  #7c3aed;
+      --peach:     #fed7aa;
+      --peach-soft:#fff7ed;
+      --peach-dark:#ea580c;
+      --bg:        #fafaf9;
+      --surface:   #ffffff;
+      --border:    #e7e5e4;
+      --text:      #1c1917;
+      --text-2:    #57534e;
+      --text-3:    #a8a29e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; color: var(--text); background: var(--bg); }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,250,249,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-weight: 700; font-size: 1em; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-logo span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--pink-dark); margin-right: 8px; vertical-align: middle; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-2); font-size: 0.88em; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .page-header {
+      max-width: 800px; margin: 0 auto; padding: 64px 24px 48px;
+    }
+    .breadcrumb {
+      font-size: 0.82em; color: var(--text-3); margin-bottom: 20px;
+    }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text-2); }
+    .page-header h1 { font-size: 2.2em; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .page-header p { color: var(--text-2); font-size: 1.05em; }
+
+    .posts-list {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 80px;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+
+    .post-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 32px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .post-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+    .post-tag {
+      display: inline-flex; align-items: center;
+      font-size: 0.72em; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .tag-protocol { background: var(--pink-soft); color: var(--pink-dark); }
+    .tag-technical { background: var(--teal-soft); color: var(--teal-dark); }
+    .tag-case-study { background: var(--lav-soft); color: var(--lav-dark); }
+    .tag-meta { background: var(--yellow-soft); color: var(--yellow-dark); }
+
+    .post-card h2 { font-size: 1.1em; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .post-card p { font-size: 0.87em; color: var(--text-2); line-height: 1.55; max-width: 560px; }
+
+    .post-meta {
+      text-align: right; white-space: nowrap;
+    }
+    .post-date { font-size: 0.8em; color: var(--text-3); display: block; margin-bottom: 4px; }
+    .post-read { font-family: 'JetBrains Mono', monospace; font-size: 0.75em; color: var(--text-3); }
+
+    .post-arrow { color: var(--text-3); font-size: 1.1em; margin-top: 4px; display: block; }
+
+    .coming-soon {
+      background: var(--bg); border: 1.5px dashed var(--border); border-radius: 14px;
+      padding: 28px 32px; text-align: center; color: var(--text-3);
+      font-size: 0.87em;
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.83em; color: var(--text-3);
+    }
+    footer a { color: var(--text-2); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .post-card { grid-template-columns: 1fr; }
+      .post-meta { text-align: left; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/DS-Nexus/" class="nav-logo"><span></span>DS-NEXUS</a>
+  <ul class="nav-links">
+    <li><a href="/DS-Nexus/#protocol">Protocol</a></li>
+    <li><a href="/DS-Nexus/#profiles">Profiles</a></li>
+    <li><a href="/DS-Nexus/#validation">Validation</a></li>
+    <li><a href="/DS-Nexus/posts/" class="active">Posts</a></li>
+    <li><a href="https://github.com/denysporynets/DS-Nexus" target="_blank">GitHub →</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="/DS-Nexus/">DS-NEXUS</a> / Posts</div>
+  <h1>Posts</h1>
+  <p>Protocol updates, technical deep dives, and notes from real use.</p>
+</div>
+
+<div class="posts-list">
+
+  <a class="post-card" href="/DS-Nexus/posts/01-what-is-ds-nexus.html">
+    <div>
+      <div class="post-tag tag-protocol">Protocol</div>
+      <h2>What is DS-NEXUS — and why does it exist?</h2>
+      <p>LLMs don't adapt to you by default. They average. DS-NEXUS is the framework that fixes this — calibrating AI collaboration to your cognitive architecture, not the other way around.</p>
+    </div>
+    <div class="post-meta">
+      <span class="post-date">Mar 25, 2026</span>
+      <span class="post-read">5 min read</span>
+      <span class="post-arrow">→</span>
+    </div>
+  </a>
+
+  <div class="coming-soon">
+    More posts coming — the protocol is evolving, and the notes will follow.
+  </div>
+
+</div>
+
+<footer>
+  <div><strong>DS-NEXUS</strong> · <a href="/DS-Nexus/">Home</a> · <a href="https://github.com/denysporynets/DS-Nexus" target="_blank">GitHub</a></div>
+  <div>Built by <a href="https://github.com/denysporynets" target="_blank">Denys Porynets</a></div>
+</footer>
+
+</body>
+</html>
