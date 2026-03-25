@@ -339,7 +339,7 @@
   <div class="intro-tag">NEXUS Calibrator · v1.0</div>
   <h1 class="intro-title">What's your<br>cognitive profile?</h1>
   <p class="intro-sub">
-    8 situational questions. No right or wrong answers.<br>
+    12 situational questions. No right or wrong answers.<br>
     You'll get a calibrated system prompt ready to paste into any LLM.
   </p>
   <button class="btn-start" onclick="startCalibration()">Start calibration →</button>
@@ -349,7 +349,7 @@
 <!-- SCREEN: QUESTION -->
 <div id="screen-question" class="screen">
   <div class="q-wrap">
-    <div class="progress-label" id="progress-label">Question 1 of 8</div>
+    <div class="progress-label" id="progress-label">Question 1 of 12</div>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill" style="width:12.5%"></div>
     </div>
@@ -475,6 +475,38 @@ const questions = [
       { letter: "A", text: "The result met the client's or team's objectives", scores: { logic: 4, density: 5, spatial: 4, specificity: 5, social: 4, depth: 2 } },
       { letter: "B", text: "The process was efficient AND the result was good", scores: { logic: 7, density: 8, spatial: 5, specificity: 7, social: 6, depth: 6 } },
       { letter: "C", text: "The solution is elegant, scalable, and I understand exactly why it works", scores: { logic: 10, density: 9, spatial: 8, specificity: 8, social: 8, depth: 10 } }
+    ]
+  },
+  {
+    text: "Someone gives you an \"it depends\" answer with no further detail. You:",
+    options: [
+      { letter: "A", text: "Push back immediately — tell me what it depends on, specifically", scores: { logic: 9, density: 8, spatial: 6, specificity: 10, social: 9, depth: 8 } },
+      { letter: "B", text: "Accept it if they follow with \"given what we know, the best option is X\"", scores: { logic: 7, density: 7, spatial: 5, specificity: 6, social: 6, depth: 5 } },
+      { letter: "C", text: "I find it interesting — ambiguity usually means there's a better question hiding underneath", scores: { logic: 4, density: 5, spatial: 6, specificity: 2, social: 4, depth: 6 } }
+    ]
+  },
+  {
+    text: "What tells you that you've truly understood something new?",
+    options: [
+      { letter: "A", text: "I can predict what happens when I change the inputs — it's a model, not a fact", scores: { logic: 10, density: 8, spatial: 8, specificity: 8, social: 7, depth: 10 } },
+      { letter: "B", text: "I can explain it clearly to someone who knows nothing about it", scores: { logic: 5, density: 4, spatial: 4, specificity: 5, social: 3, depth: 7 } },
+      { letter: "C", text: "I can use it reliably to get the outcome I needed", scores: { logic: 6, density: 8, spatial: 4, specificity: 7, social: 6, depth: 3 } }
+    ]
+  },
+  {
+    text: "Your preferred format for receiving complex technical output:",
+    options: [
+      { letter: "A", text: "Dense prose — structure implied by logic, no decorative headers", scores: { logic: 10, density: 10, spatial: 5, specificity: 9, social: 9, depth: 8 } },
+      { letter: "B", text: "Bullet points and headers — scannable in under 30 seconds", scores: { logic: 7, density: 9, spatial: 4, specificity: 7, social: 7, depth: 3 } },
+      { letter: "C", text: "Concept map or diagram first, then prose that narrates the connections", scores: { logic: 6, density: 6, spatial: 10, specificity: 5, social: 5, depth: 7 } }
+    ]
+  },
+  {
+    text: "After an intense work or learning session, what tells you it was productive?",
+    options: [
+      { letter: "A", text: "I understand why the system is built that way — not just how to use it", scores: { logic: 9, density: 7, spatial: 6, specificity: 7, social: 7, depth: 10 } },
+      { letter: "B", text: "I hit a concrete objective I couldn't do before", scores: { logic: 7, density: 8, spatial: 4, specificity: 7, social: 6, depth: 3 } },
+      { letter: "C", text: "I opened more questions than I closed — and now I know which ones matter", scores: { logic: 5, density: 5, spatial: 7, specificity: 3, social: 4, depth: 7 } }
     ]
   }
 ];
