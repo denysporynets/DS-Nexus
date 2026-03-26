@@ -721,87 +721,16 @@ function renderResults() {
     });
   }, 100);
 
-  // Generate system prompt
-  document.getElementById('prompt-output').value = generatePrompt();
+  // Load system prompt from canonical .txt profile file
+  const textarea = document.getElementById('prompt-output');
+  textarea.value = 'Loading profile…';
+  const rawUrl = `https://raw.githubusercontent.com/denysporynets/DS-Nexus/main/profiles/${finalProfile}.txt`;
+  fetch(rawUrl)
+    .then(r => r.text())
+    .then(text => { textarea.value = text; })
+    .catch(() => { textarea.value = `[Error loading profile. Visit: ${rawUrl}]`; });
 
   showScreen('screen-results');
-}
-
-function generatePrompt() {
-  const s = finalScores;
-  const prof = profiles[finalProfile];
-
-  const densityDesc = s.density >= 8 ? "maximum — 0.8–1.2 bits/word. Numbers over descriptions. Structures over narrative. No preamble."
-    : s.density >= 5 ? "high, with a brief orienting sentence before diving into structure."
-    : "moderate. Lead with a short conceptual frame, then the structured answer.";
-
-  const logicDesc = s.logic >= 8 ? "pure logical, pattern-based, bottom-up computation"
-    : s.logic >= 5 ? "primarily analytical with some tolerance for intuitive leaps"
-    : "mixed logical and intuitive — both paths are valid inputs";
-
-  const spatialDesc = s.spatial >= 8 ? "spatial 3D — data as architecture, systems as geometry. Use structural diagrams when possible."
-    : s.spatial >= 5 ? "verbal-structured — clear hierarchies, explicit labels, ordered lists"
-    : "visual-narrative — connected ideas, concept maps, stories that reveal structure";
-
-  const specDesc = s.specificity >= 8 ? "low — specificity required to operate. Define parameters before proceeding."
-    : s.specificity >= 5 ? "medium — prefer clarity but can work through ambiguity when needed"
-    : "high — ambiguity is a creative input. Leave room for exploration.";
-
-  const socialDesc = s.social >= 8 ? "none required — rapport is noise. Skip all social padding."
-    : s.social >= 5 ? "minimal — one brief acknowledgment per session is acceptable, not per message"
-    : "medium — some rapport aids collaboration. Brief human acknowledgment is welcome.";
-
-  const depthDesc = s.depth >= 8 ? "architectural — understand the system fully before solving. Apply the 3-layer framework (Why → How → So What) always."
-    : s.depth >= 5 ? "mixed — understand why it works, but prioritize practical implementation"
-    : "operational — solve it efficiently. Theory only if it directly changes the decision.";
-
-  const analogyLevel = s.logic >= 8 ? "isomorphic (level 3): one-to-one domain mapping that preserves logical structure and enables predictions"
-    : s.logic >= 5 ? "structural (level 2): maps the logical structure between domains"
-    : "accessible (level 1): everyday analogies that build intuition first";
-
-  return `You are operating under the DS-NEXUS protocol, calibrated to profile ${finalProfile}.
-
-COGNITIVE PROFILE:
-- Processing: ${logicDesc}
-- Information density: ${densityDesc}
-- Visualization: ${spatialDesc}
-- Ambiguity tolerance: ${specDesc}
-- Social context: ${socialDesc}
-- Depth preference: ${depthDesc}
-
-COMMUNICATION RULES:
-1. Density target as specified above. No filler words, no redundant transitions.
-2. Use the marker system:
-   --> logical consequence
-   [!] critical alert / systemic error
-   [?] hypothesis pending validation
-   ✓  validated / confirmed
-   ✗  refuted
-   ⚡ critical insight / breakthrough
-3. Analogies: ${analogyLevel}. Not decorative — only when they add structural insight.
-4. Format: lists, tables, and code blocks preferred. Prose only when structure is impossible.
-5. When solving a problem, apply the 3-layer framework:
-   - Why: what is the real problem (not the symptom)?
-   - How: implementation with explicit trade-offs
-   - So What: does this solve the real problem? second-order consequences?
-
-OPERATION MODES — switch based on context:
-- ROUTINE: known task, validated solution → direct execution, minimal communication
-- CRITICAL: new problem, no standard solution → inverse engineering + non-linear approach
-- SOCIAL: interpersonal/emotional context → translate emotion to logical structure, compute optimal response
-- SYNTHESIS: communicating to a third party → adapt output to their profile, not mine
-- EXPLORATION: unknown domain → map hypotheses with [?] flags + minimal validation plan
-
-DEFAULT BEHAVIOR:
-- Lead with the conclusion or the critical constraint
-- Flag uncertainty explicitly with [?] — never hide it
-- If something is not validated, say so
-- Confidence levels when relevant: "high confidence", "uncertain — validate before acting"
-
-─────────────────────────────────────────────
-DS-NEXUS Protocol · github.com/denysporynets/DS-Nexus
-Profile: ${finalProfile} · Generated: ${new Date().toISOString().split('T')[0]}
-─────────────────────────────────────────────`;
 }
 
 // ─── ACTIONS ────────────────────────────────────────────────────────────────
