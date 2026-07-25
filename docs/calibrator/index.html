@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/laton.css?v=1">
 
   <!-- Theme guard: applied BEFORE first paint (same key as the whole portfolio). -->
   <script>
@@ -25,87 +26,8 @@
   </script>
 
   <style>
-    /* ═══ "Brass on paper" system — self-contained (its own copy, like the portfolio) ═══ */
-    :root {
-      --paper:#DEDCD5; --paper-2:#E5E4DE; --paper-3:#D6D3C8;
-      --ink:#20272A; --pine:#1E3A34; --signal:#C8502A; --signal-ink:#A83E1E;
-      --brass:#9A7420; --sage:#6E7A6F;
-      --line:rgba(30,58,52,0.16); --line-2:rgba(30,58,52,0.09);
-      /* five profile hues — earthy marks that sit on paper */
-      --p-d:#B4472A; --p-e:#2F6E5E; --p-n:#9A7420; --p-y:#5B6699; --p-s:#77864F;
-      --font-display:"Spectral",Georgia,"Times New Roman",serif;
-      --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-      color-scheme:light;
-    }
-    :root[data-theme="dark"] {
-      color-scheme:dark;
-      --paper:#161F1C; --paper-2:#1D2724; --paper-3:#26302C;
-      --ink:#E4E0D5; --pine:#A9C6B8; --signal:#D6603C; --signal-ink:#E8825C;
-      --brass:#CBA24D; --sage:#93A096;
-      --line:rgba(196,214,204,0.16); --line-2:rgba(196,214,204,0.09);
-      --p-d:#E08A5A; --p-e:#6FB3A0; --p-n:#CBA24D; --p-y:#98A2D8; --p-s:#AEBE82;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
-
-    body {
-      font-family: var(--font-body);
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--ink);
-      background: var(--paper);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      -webkit-font-smoothing: antialiased;
-      transition: background .4s ease, color .4s ease;
-    }
-    :focus-visible { outline:2px solid var(--signal); outline-offset:3px; border-radius:2px; }
-
-    /* ─── background: neural constellation (ambient, subtle) ─── */
-    .bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-    .bg-grain {
-      position:absolute; inset:0; opacity:0.16; mix-blend-mode:multiply;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-    .bg-net { position:absolute; inset:0; width:100%; height:100%; opacity:0; transition:opacity 1.1s ease; }
-    .bg-net.on { opacity:0.32; }
-    :root[data-theme="dark"] .bg-grain { mix-blend-mode:screen; opacity:0.05; }
-    :root[data-theme="dark"] .bg-net.on { opacity:0.42; }
-
-    nav, .screen, footer { position:relative; z-index:1; }
-
-    /* NAV */
-    nav {
-      position: sticky; top: 0; z-index: 50;
-      background: var(--paper);
-      background: color-mix(in srgb, var(--paper) 86%, transparent);
-      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-      padding: 0 var(--pad, clamp(20px,5vw,40px)); height: 58px;
-      display: flex; align-items: center; justify-content: space-between; gap: 14px;
-    }
-    .nav-logo { font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.06em; color: var(--pine); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); }
-    .nav-right { display:flex; align-items:center; gap:18px; }
-    .nav-back { font-family: var(--font-mono); font-size: 0.78rem; color: var(--sage); text-decoration: none; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
-    .nav-back:hover { color: var(--ink); }
-    .nav-back .arw { transition:transform .16s ease; display:inline-block; }
-    .nav-back:hover .arw { transform:translateX(-3px); }
-    .theme-toggle {
-      display:inline-flex; align-items:center; justify-content:center;
-      width:36px; height:36px; border-radius:50%; flex:none;
-      border:1px solid var(--line); background:transparent; color:var(--pine); cursor:pointer;
-      transition:background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
-    }
-    .theme-toggle:hover { background:var(--paper-3); border-color:var(--brass); color:var(--brass); transform:rotate(-12deg); }
-    .theme-toggle svg { width:17px; height:17px; display:block; }
-    .theme-toggle .ico-sun { display:none; }
-    :root[data-theme="dark"] .theme-toggle .ico-sun { display:block; }
-    :root[data-theme="dark"] .theme-toggle .ico-moon { display:none; }
+    /* page-specific override: the calibrator is a full-height app shell */
+    body { display: flex; flex-direction: column; }
 
     /* SCREENS */
     .screen { display: none; flex: 1; }
@@ -375,16 +297,6 @@
       border-radius: 5px; font-size: 0.83em; color: var(--ink); opacity: 0.92;
     }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 24px var(--pad, clamp(20px,5vw,40px));
-      display: flex; justify-content: space-between; gap: 8px 20px;
-      font-family: var(--font-mono);
-      font-size: 0.76em; color: var(--sage);
-    }
-    footer a { color: var(--sage); text-decoration: none; }
-    footer a:hover { color: var(--signal-ink); }
 
     @media (max-width: 600px) {
       nav { padding: 0 20px; }
@@ -401,7 +313,7 @@
 </div>
 
 <nav>
-  <a href="../" class="nav-logo"><span class="nav-dot"></span>DS-NEXUS</a>
+  <a href="../" class="nav-logo"><span class="dot"></span>DS-NEXUS</a>
   <div class="nav-right">
     <a href="../" class="nav-back"><span class="arw">←</span> Back to home</a>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Dark / light mode">
@@ -1718,93 +1630,6 @@ function downloadPrompt() {
 }
 </script>
 
-<!-- theme toggle + ambient neural background (isolated from the quiz logic above) -->
-<script>
-  (function () {
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // ── dark / light (same key as the whole portfolio: the theme travels with the visitor) ──
-    try {
-      var root = document.documentElement;
-      var btn = document.getElementById("themeToggle");
-      var CLAVE = "portfolio-tema";
-      var mq = window.matchMedia("(prefers-color-scheme: dark)");
-      function aplicar(t) {
-        if (t === "dark") { root.setAttribute("data-theme", "dark"); btn.setAttribute("aria-label", "Switch to light mode"); }
-        else { root.removeAttribute("data-theme"); btn.setAttribute("aria-label", "Switch to dark mode"); }
-      }
-      function guardado() { try { return localStorage.getItem(CLAVE); } catch (e) { return null; } }
-      aplicar(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
-      btn.addEventListener("click", function () {
-        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        aplicar(next);
-        try { localStorage.setItem(CLAVE, next); } catch (e) {}
-      });
-      var onMq = function (e) { if (!guardado()) aplicar(e.matches ? "dark" : "light"); };
-      if (mq.addEventListener) mq.addEventListener("change", onMq);
-      else if (mq.addListener) mq.addListener(onMq); // older Safari / WebKit
-    } catch (e) {}
-
-    // ── ambient neural constellation (theme-aware, pauses when the tab is hidden) ──
-    try {
-      var cv = document.getElementById("net");
-      if (!cv || reduce) return;
-      var ctx = cv.getContext("2d");
-      var dpr = Math.min(2, window.devicePixelRatio || 1);
-      var pts = [], W = 0, H = 0, colLine = "#1E3A34", colNode = "#9A7420", rafId = null;
-      function colors() {
-        var cs = getComputedStyle(document.documentElement);
-        colLine = (cs.getPropertyValue("--pine").trim()) || colLine;
-        colNode = (cs.getPropertyValue("--brass").trim()) || colNode;
-      }
-      function size() {
-        var r = cv.getBoundingClientRect();
-        W = r.width; H = r.height;
-        cv.width = W * dpr; cv.height = H * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      function build() {
-        var N = Math.max(30, Math.min(80, Math.round(W / 28)));
-        pts = [];
-        for (var i = 0; i < N; i++) {
-          var a = Math.random() * 6.28, sp = 0.07 + Math.random() * 0.12;
-          pts.push({ x: Math.random() * W, y: Math.random() * H, ph: Math.random() * 6.28, r: Math.random() < 0.22 ? 3.2 : 2.0, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp });
-        }
-      }
-      function frame(t) {
-        ctx.clearRect(0, 0, W, H);
-        for (var k = 0; k < pts.length; k++) {
-          var p = pts[k];
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < -12) p.x = W + 12; else if (p.x > W + 12) p.x = -12;
-          if (p.y < -12) p.y = H + 12; else if (p.y > H + 12) p.y = -12;
-        }
-        var maxd = Math.min(150, W * 0.14);
-        ctx.strokeStyle = colLine; ctx.lineWidth = 0.7;
-        for (var i = 0; i < pts.length; i++) for (var j = i + 1; j < pts.length; j++) {
-          var dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d = Math.hypot(dx, dy);
-          if (d < maxd) { ctx.globalAlpha = 0.16 * (1 - d / maxd); ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke(); }
-        }
-        ctx.fillStyle = colNode;
-        for (var m = 0; m < pts.length; m++) {
-          var q = pts[m], tw = (Math.sin(t / 1000 + q.ph) + 1) / 2;
-          ctx.globalAlpha = 0.25 + tw * 0.30;
-          ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 6.28); ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-        rafId = requestAnimationFrame(frame);
-      }
-      function start() { if (rafId == null) rafId = requestAnimationFrame(frame); }
-      function stop() { if (rafId != null) { cancelAnimationFrame(rafId); rafId = null; } }
-      colors(); size(); build();
-      cv.classList.add("on");
-      start();
-      var rz;
-      window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { size(); build(); }, 200); }, { passive: true });
-      new MutationObserver(colors).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-      document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
-    } catch (e) {}
-  })();
-</script>
+<script src="../assets/laton.js?v=1"></script>
 </body>
 </html>

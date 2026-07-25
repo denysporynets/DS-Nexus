@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   DS-NEXUS — "Brass on paper" shared system
+   Single source of truth for the interior pages (calibrator/ + posts/).
+   The landing (docs/index.html) keeps its own inline copy on purpose: it has a
+   different nav (← Portfolio), a parallax hero canvas and the spell/reveal piece.
+   Each interior page keeps only its page-specific CSS inline + this <link>.
+
+   ⚠️ CACHE: GitHub Pages serves this with max-age=600, so the pages link it as
+   `laton.css?v=N`. BUMP THAT N (in the three interior pages, css AND js) on every
+   change here, or a returning visitor gets new HTML with the old stylesheet.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:#DEDCD5; --paper-2:#E5E4DE; --paper-3:#D6D3C8;
+  --ink:#20272A; --pine:#1E3A34; --signal:#C8502A; --signal-ink:#A83E1E;
+  --brass:#9A7420; --sage:#6E7A6F;
+  --line:rgba(30,58,52,0.16); --line-2:rgba(30,58,52,0.09);
+  /* five profile hues — earthy marks that sit on paper */
+  --p-d:#B4472A; --p-e:#2F6E5E; --p-n:#9A7420; --p-y:#5B6699; --p-s:#77864F;
+  --font-display:"Spectral",Georgia,"Times New Roman",serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --pad:clamp(20px,5vw,40px);
+  color-scheme:light;
+}
+:root[data-theme="dark"] {
+  color-scheme:dark;
+  --paper:#161F1C; --paper-2:#1D2724; --paper-3:#26302C;
+  --ink:#E4E0D5; --pine:#A9C6B8; --signal:#D6603C; --signal-ink:#E8825C;
+  --brass:#CBA24D; --sage:#93A096;
+  --line:rgba(196,214,204,0.16); --line-2:rgba(196,214,204,0.09);
+  --p-d:#E08A5A; --p-e:#6FB3A0; --p-n:#CBA24D; --p-y:#98A2D8; --p-s:#AEBE82;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+body {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.7;
+  color: var(--ink); background: var(--paper); min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background .4s ease, color .4s ease;
+}
+a { color: var(--signal-ink); text-decoration: none; }
+:focus-visible { outline:2px solid var(--signal); outline-offset:3px; border-radius:2px; }
+
+/* ─── background: ambient neural constellation ─── */
+.bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.bg-grain {
+  position:absolute; inset:0; opacity:0.16; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.bg-net { position:absolute; inset:0; width:100%; height:100%; opacity:0; transition:opacity 1.1s ease; }
+.bg-net.on { opacity:0.32; }
+:root[data-theme="dark"] .bg-grain { mix-blend-mode:screen; opacity:0.05; }
+:root[data-theme="dark"] .bg-net.on { opacity:0.42; }
+
+/* Every body child rides above the fixed background except .bg itself.
+   The <nav> is excluded ON PURPOSE: this selector's specificity beats a bare
+   `nav` (0,0,1), so including it silently killed the sticky header once already.
+   ⚠️ SAME TRAP for anything new: a direct child of <body> that wants its own
+   `position` needs a selector above (0,1,2) — e.g. `body > .toc.toc` — or this
+   rule flattens it back to `relative` with no error anywhere. */
+body > *:not(.bg):not(nav) { position:relative; z-index:1; }
+
+/* ─── nav (shared: logo + back-to-home + theme toggle) ─── */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--paper); /* fallback where color-mix() is unsupported */
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 var(--pad); height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.nav-logo { font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.06em; color: var(--pine); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.nav-logo span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); display:inline-block; }
+.nav-right { display:flex; align-items:center; gap:18px; }
+.nav-back { font-family: var(--font-mono); font-size: 0.78rem; color: var(--sage); text-decoration: none; display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+.nav-back:hover { color: var(--ink); }
+.nav-back .arw { transition:transform .16s ease; display:inline-block; }
+.nav-back:hover .arw { transform:translateX(-3px); }
+.theme-toggle {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:50%; flex:none;
+  border:1px solid var(--line); background:transparent; color:var(--pine); cursor:pointer;
+  transition:background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+}
+.theme-toggle:hover { background:var(--paper-3); border-color:var(--brass); color:var(--brass); transform:rotate(-12deg); }
+.theme-toggle svg { width:17px; height:17px; display:block; }
+.theme-toggle .ico-sun { display:none; }
+:root[data-theme="dark"] .theme-toggle .ico-sun { display:block; }
+:root[data-theme="dark"] .theme-toggle .ico-moon { display:none; }
+
+/* ─── instrument rule ─── */
+.rule {
+  height:10px; border:0; margin:0 auto; max-width:820px;
+  background:
+    linear-gradient(var(--line),var(--line)) left bottom / 100% 1px no-repeat,
+    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 28px) left bottom / 100% 6px no-repeat;
+}
+
+/* ─── footer (shared) ─── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 32px var(--pad);
+  display: flex; justify-content: space-between; align-items: center; gap: 10px 20px;
+  font-family: var(--font-mono); font-size: 0.76rem; color: var(--sage);
+}
+footer a { color: var(--sage); }
+footer a:hover { color: var(--signal-ink); }
+footer strong { color: var(--pine); }

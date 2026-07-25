@@ -558,17 +558,19 @@
       const CLAVE = "portfolio-tema";
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       function aplicar(t) {
-        if (t === "dark") { root.setAttribute("data-theme", "dark"); btn.setAttribute("aria-label", "Switch to light mode"); }
-        else { root.removeAttribute("data-theme"); btn.setAttribute("aria-label", "Switch to dark mode"); }
+        if (t === "dark") { root.setAttribute("data-theme", "dark"); if (btn) btn.setAttribute("aria-label", "Switch to light mode"); }
+        else { root.removeAttribute("data-theme"); if (btn) btn.setAttribute("aria-label", "Switch to dark mode"); }
       }
       function guardado() { try { return localStorage.getItem(CLAVE); } catch (e) { return null; } }
       aplicar(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
-      btn.addEventListener("click", () => {
+      if (btn) btn.addEventListener("click", () => {
         const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
         aplicar(next);
         try { localStorage.setItem(CLAVE, next); } catch (e) {}
       });
-      mq.addEventListener("change", (e) => { if (!guardado()) aplicar(e.matches ? "dark" : "light"); });
+      const onMq = (e) => { if (!guardado()) aplicar(e.matches ? "dark" : "light"); };
+      if (mq.addEventListener) mq.addEventListener("change", onMq);
+      else if (mq.addListener) mq.addListener(onMq); // older Safari / WebKit
     })();
   } catch (e) {}
 
