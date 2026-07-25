@@ -311,7 +311,7 @@
       profiles, six dimensions.
     </p>
     <div class="btn-row reveal">
-      <a href="/DS-Nexus/calibrator/" class="btn btn-primary">Calibrate your profile →</a>
+      <a href="calibrator/" class="btn btn-primary">Calibrate your profile →</a>
       <a href="https://github.com/denysporynets/DS-Nexus" target="_blank" rel="noopener" class="btn btn-ghost">View on GitHub</a>
     </div>
   </section>
@@ -425,7 +425,7 @@
         <div class="pdesc">Understanding over speed · visible reasoning · checkpoints</div>
       </div>
     </div>
-    <p class="spell-note reveal" id="spellNote" aria-live="polite">Five profiles, one acrostic — press play, then <a href="/DS-Nexus/calibrator/">calibrate your own →</a></p>
+    <p class="spell-note reveal" id="spellNote" aria-live="polite">Five profiles, one acrostic — press play, then <a href="calibrator/">calibrate your own →</a></p>
   </section>
 
   <div class="wrap"><hr class="rule"></div>
@@ -483,7 +483,7 @@
         <div class="n">01 —</div>
         <h3>Calibrate your profile</h3>
         <p>Answer <strong>12 questions</strong> about how you process information. No right or wrong answers — map how your mind actually works, not how you think it should.</p>
-        <a class="lnk" href="/DS-Nexus/calibrator/">Open the calibrator →</a>
+        <a class="lnk" href="calibrator/">Open the calibrator →</a>
       </div>
       <div class="step reveal">
         <div class="n">02 —</div>
@@ -509,7 +509,7 @@
       <h2>Latest posts</h2>
       <p class="sec-sub">Protocol updates, technical notes, and ideas from real use.</p>
     </div>
-    <a class="post reveal" href="/DS-Nexus/posts/01-what-is-ds-nexus.html">
+    <a class="post reveal" href="posts/01-what-is-ds-nexus.html">
       <div>
         <span class="kicker">Protocol</span>
         <h3>What is DS-NEXUS — and why does it exist?</h3>
@@ -517,7 +517,7 @@
       </div>
       <div class="meta">Mar 25, 2026<br>5 min read<br><span aria-hidden="true">→</span></div>
     </a>
-    <p style="margin-top:18px"><a class="tag" style="text-transform:none;letter-spacing:.02em" href="/DS-Nexus/posts/">All posts →</a></p>
+    <p style="margin-top:18px"><a class="tag" style="text-transform:none;letter-spacing:.02em" href="posts/">All posts →</a></p>
   </section>
 
   <footer>
@@ -592,11 +592,11 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
       function build() {
-        const N = Math.max(22, Math.min(64, Math.round(W / 40)));
+        const N = Math.max(34, Math.min(96, Math.round(W / 26)));
         pts = [];
         for (let i = 0; i < N; i++) {
           const a = Math.random() * 6.28, sp = 0.08 + Math.random() * 0.14;
-          pts.push({ x: Math.random() * W, y: Math.random() * H, ph: Math.random() * 6.28, r: Math.random() < 0.18 ? 2.4 : 1.5, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp });
+          pts.push({ x: Math.random() * W, y: Math.random() * H, ph: Math.random() * 6.28, r: Math.random() < 0.22 ? 3.4 : 2.1, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp });
         }
       }
       function frame(t) {
@@ -669,7 +669,7 @@
             if (i === cards.length - 1) {
               setTimeout(() => {
                 note.classList.add("done");
-                note.innerHTML = "<b>D·E·N·Y·S</b> — five profiles, one acrostic. Now <a href=\"/DS-Nexus/calibrator/\">calibrate your own →</a>";
+                note.innerHTML = "<b>D·E·N·Y·S</b> — five profiles, one acrostic. Now <a href=\"calibrator/\">calibrate your own →</a>";
                 running = false; btn.disabled = false;
               }, reduce ? 0 : 520);
             }
